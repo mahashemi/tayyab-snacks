@@ -35,6 +35,7 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
         <a href="submit.php">+ Start a Campaign</a>
+        <?php if (!empty($user['is_admin'])): ?><a href="admin.php">Admin</a><?php endif; ?>
         <a href="logout.php" class="nav-btn">Logout</a>
     </div>
 </nav>

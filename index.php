@@ -34,6 +34,7 @@ $stats = $pdo->query(
         <?php if ($user): ?>
             <a href="submit.php">+ Start a Campaign</a>
             <a href="dashboard.php">Dashboard</a>
+            <?php if (!empty($user['is_admin'])): ?><a href="admin.php">Admin</a><?php endif; ?>
             <a href="logout.php" class="nav-btn">Logout</a>
         <?php else: ?>
             <a href="login.php">Login</a>
