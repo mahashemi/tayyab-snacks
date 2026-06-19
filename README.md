@@ -25,11 +25,16 @@ Tayyab Snacks is a focused crowdfunding platform — not a general marketplace �
 | Feature | Status |
 |---|---|
 | User registration & login | ✅ |
+| Email verification required before login (24h token, resend supported) | ✅ |
+| Edit your own profile (name, country, phone, password) | ✅ |
 | Submit a campaign (goal, category, deadline, description) — held for admin review | ✅ |
+| Owners and admins can edit any campaign — "Last edited by" shown on the campaign | ✅ |
 | Browse/search active campaigns by category | ✅ |
 | Contribute to a campaign (named or anonymous), with live progress bar | ✅ |
 | Personal dashboard — my campaigns & my contributions | ✅ |
-| Admin panel — approve/reject pending campaigns, manage status, export CSV | ✅ |
+| Country selector with auto-filled dial code + validated 10-digit phone | ✅ |
+| Admin panel — approve/reject pending campaigns, manage status, grant/revoke admin, export CSV | ✅ |
+| 9 starter campaigns seeded — authentic Persian snacks (Ardeh, Lavashak, Tokhmeh, Sohan, Gaz, etc.) | ✅ |
 | Payment gateway integration (currently contributions are recorded, not charged) | 🔜 planned |
 | Verified "Tayyab Snack" badge for brands | 🔜 planned |
 
@@ -47,7 +52,10 @@ tayyab_snacks/
 ├── campaign.php                  # Campaign detail + contribute form
 ├── submit.php                     # Submit a new campaign (goes to "pending" review)
 ├── dashboard.php                   # My campaigns & my contributions
-├── admin.php                        # Admin panel (pending review, all campaigns, users, CSV export)
+├── edit-campaign.php               # Edit a campaign (owner or admin)
+├── edit-profile.php                # Edit your own profile
+├── verify.php / verify-pending.php / resend-verification.php   # Email verification flow
+├── admin.php                        # Admin panel (pending review, all campaigns, users, privileges, CSV export)
 ├── VISION.md                         # Product vision & mission
 └── TASKS.md                           # Project task tracker
 ```
@@ -81,10 +89,19 @@ UPDATE users SET password = '<new bcrypt hash>' WHERE email = 'admin@tayyabsnack
 
 Visit `/admin.php` while logged in as an admin (`is_admin = 1`) to:
 - **Review pending campaigns** — approve (makes it live) or reject, one click each
-- View and change the status of any campaign (pending / active / funded / closed / rejected)
+- View, edit, and change the status of any campaign (pending / active / funded / closed / rejected)
+- **Grant or revoke admin privileges** for any other user (you cannot demote yourself)
 - View and CSV-export users, campaigns, and contributions
 
 > New campaigns submitted via `/submit.php` are **not visible on the site** until an admin approves them from `/admin.php` → Pending tab.
+
+## Email Verification
+
+New accounts must verify their email before logging in. `mail()` is attempted on registration, but **most local environments (XAMPP) have no SMTP configured**, so delivery will silently fail. To make local testing possible, `config.php` has `DEV_SHOW_VERIFY_LINK = true`, which shows the verification link directly on the "check your email" page after registering. **Set this to `false` once real SMTP/email delivery is wired up in production.**
+
+## Editing & Attribution
+
+Campaign creators can edit their own campaigns from `dashboard.php` or the campaign page. Admins can edit *any* campaign the same way (including changing its status). Whenever an admin edits someone else's campaign, the campaign page shows "Last edited by [Admin Name] (Admin)" so changes are always traceable.
 
 ## Deployment
 

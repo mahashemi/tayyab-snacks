@@ -66,6 +66,30 @@ function verifyCsrf(): void {
     }
 }
 
+// ── Email Verification ─────────────────────────────────────────────────
+function generateVerificationToken(): string {
+    return bin2hex(random_bytes(32));
+}
+
+function siteBaseUrl(): string {
+    if (SITE_URL !== '') return rtrim(SITE_URL, '/');
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $dir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+    return $scheme . '://' . $_SERVER['HTTP_HOST'] . $dir;
+}
+
+function sendVerificationEmail(string $toEmail, string $name, string $token): bool {
+    $link = siteBaseUrl() . '/verify.php?token=' . $token;
+    $subject = 'Verify your ' . SITE_NAME . ' account';
+    $body = "Assalamu Alaikum $name,\n\n"
+        . "Thank you for joining " . SITE_NAME . ". Please verify your email address by clicking the link below:\n\n"
+        . "$link\n\n"
+        . "This link expires in 24 hours. If you did not create this account, you can ignore this email.\n\n"
+        . "- " . SITE_NAME . " Team";
+    $headers = 'From: no-reply@' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'localhost');
+    return @mail($toEmail, $subject, $body, $headers);
+}
+
 function progressPct(float $raised, float $goal): int {
     if ($goal <= 0) return 0;
     return (int) min(100, round($raised / $goal * 100));

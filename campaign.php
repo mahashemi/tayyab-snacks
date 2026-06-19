@@ -4,8 +4,10 @@ $user = auth();
 
 $id = (int) ($_GET['id'] ?? 0);
 $stmt = $pdo->prepare(
-    'SELECT c.*, u.name AS creator_name, u.city AS creator_city, cat.name AS cat_name, cat.icon AS cat_icon
+    'SELECT c.*, u.name AS creator_name, u.city AS creator_city, cat.name AS cat_name, cat.icon AS cat_icon,
+            e.name AS editor_name, e.is_admin AS editor_is_admin
      FROM campaigns c JOIN users u ON u.id = c.user_id LEFT JOIN categories cat ON cat.id = c.category_id
+     LEFT JOIN users e ON e.id = c.updated_by
      WHERE c.id = ?'
 );
 $stmt->execute([$id]);
@@ -76,8 +78,19 @@ $daysLeft = $campaign['deadline'] ? max(0, (int) ((strtotime($campaign['deadline
         <div class="campaign-img" style="height:240px;font-size:5rem"><?= e($campaign['cat_icon'] ?: '🥨') ?></div>
         <div class="card-body">
             <?php if ($campaign['cat_name']): ?><span class="badge badge-active" style="margin-bottom:.6rem;display:inline-block"><?= e($campaign['cat_name']) ?></span><?php endif; ?>
-            <h1 style="font-size:1.5rem;margin-bottom:.6rem"><?= e($campaign['title']) ?></h1>
+            <div style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap">
+                <h1 style="font-size:1.5rem;margin-bottom:.6rem"><?= e($campaign['title']) ?></h1>
+                <?php if ($user && ($user['id'] == $campaign['user_id'] || !empty($user['is_admin']))): ?>
+                    <a href="edit-campaign.php?id=<?= $id ?>" class="btn btn-sm btn-outline">✏️ Edit</a>
+                <?php endif; ?>
+            </div>
             <p style="color:var(--text-mid);white-space:pre-line;margin-bottom:1.2rem"><?= e($campaign['description']) ?></p>
+            <?php if ($campaign['editor_name']): ?>
+                <div style="font-size:.78rem;color:var(--text-light);margin-bottom:1rem">
+                    Last edited by <?= e($campaign['editor_name']) ?><?= $campaign['editor_is_admin'] ? ' (Admin)' : '' ?>
+                    on <?= date('M j, Y', strtotime($campaign['updated_at'])) ?>
+                </div>
+            <?php endif; ?>
 
             <div class="prog-wrap">
                 <div class="prog-bar" style="height:14px"><div class="prog-fill" style="width:<?= $pct ?>%"></div></div>

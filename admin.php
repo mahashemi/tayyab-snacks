@@ -32,7 +32,14 @@ if (isset($_GET['export'])) {
 // ── Actions ────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
-    if (isset($_POST['set_status'])) {
+    if (isset($_POST['toggle_verified'])) {
+        $pdo->prepare('UPDATE users SET is_verified = 1, verification_token = NULL, verification_expires = NULL WHERE id = ?')->execute([(int) $_POST['toggle_verified']]);
+    } elseif (isset($_POST['toggle_admin'])) {
+        $targetId = (int) $_POST['toggle_admin'];
+        if ($targetId !== (int) $user['id']) {
+            $pdo->prepare('UPDATE users SET is_admin = 1 - is_admin WHERE id = ?')->execute([$targetId]);
+        }
+    } elseif (isset($_POST['set_status'])) {
         $newStatus = $_POST['set_status'];
         $cid = (int) $_POST['campaign_id'];
         if (in_array($newStatus, ['active', 'rejected', 'closed', 'funded', 'pending'], true)) {
@@ -120,6 +127,7 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
                         <div style="margin-top:.5rem;font-weight:700;color:var(--green-deep)">Goal: Rs <?= number_format((float) $c['goal_amount']) ?></div>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:.5rem;min-width:140px">
+                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-outline btn-full">✏️ Edit First</a>
                         <form method="post"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="active" class="btn btn-green btn-full">✓ Approve</button></form>
                         <form method="post" onsubmit="return confirm('Reject this campaign?')"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="rejected" class="btn btn-outline btn-full" style="color:#c00;border-color:#c00">✕ Reject</button></form>
                     </div>
@@ -144,7 +152,8 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
                     <td>Rs <?= number_format((float) $c['goal_amount']) ?></td>
                     <td>Rs <?= number_format((float) $c['raised_amount']) ?></td>
                     <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
-                    <td>
+                    <td style="display:flex;gap:.4rem;align-items:center">
+                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a>
                         <form method="post" style="display:inline">
                             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
                             <input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>">
@@ -168,7 +177,7 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
             <a href="?export=users" class="btn btn-outline btn-sm">⬇ Download CSV</a>
         </div>
         <table class="table">
-            <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Phone</th><th>Joined</th></tr></thead>
+            <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Phone</th><th>Verified</th><th>Joined</th><th>Actions</th></tr></thead>
             <tbody>
                 <?php foreach ($users as $u): ?>
                 <tr>
@@ -176,7 +185,19 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
                     <td><?= e($u['email']) ?></td>
                     <td><?= e($u['city'] ?: '—') ?></td>
                     <td><?= e($u['phone'] ?: '—') ?></td>
+                    <td><?= $u['is_verified'] ? '✓ Verified' : '—' ?></td>
                     <td><?= date('M j, Y', strtotime($u['created_at'])) ?></td>
+                    <td style="display:flex;gap:.4rem">
+                        <?php if (!$u['is_verified']): ?>
+                        <form method="post"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="toggle_verified" value="<?= (int) $u['id'] ?>" class="btn btn-sm btn-outline">Verify</button></form>
+                        <?php endif; ?>
+                        <?php if ((int) $u['id'] !== (int) $user['id']): ?>
+                        <form method="post" onsubmit="return confirm('<?= $u['is_admin'] ? 'Remove admin privileges from' : 'Grant admin privileges to' ?> <?= e($u['name']) ?>?')">
+                            <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
+                            <button type="submit" name="toggle_admin" value="<?= (int) $u['id'] ?>" class="btn btn-sm btn-outline"><?= $u['is_admin'] ? 'Revoke Admin' : 'Make Admin' ?></button>
+                        </form>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

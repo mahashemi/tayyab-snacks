@@ -35,6 +35,7 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
         <a href="submit.php">+ Start a Campaign</a>
+        <a href="edit-profile.php">Edit Profile</a>
         <?php if (!empty($user['is_admin'])): ?><a href="admin.php">Admin</a><?php endif; ?>
         <a href="logout.php" class="nav-btn">Logout</a>
     </div>
@@ -64,7 +65,7 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
         <div class="empty-state"><div class="icon">🥨</div><h3>You haven't started a campaign yet</h3></div>
     <?php else: ?>
     <table class="table" style="margin-bottom:2rem">
-        <thead><tr><th>Title</th><th>Category</th><th>Goal</th><th>Raised</th><th>Status</th></tr></thead>
+        <thead><tr><th>Title</th><th>Category</th><th>Goal</th><th>Raised</th><th>Status</th><th></th></tr></thead>
         <tbody>
             <?php foreach ($myCampaigns as $c): ?>
             <tr>
@@ -73,6 +74,7 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
                 <td>Rs <?= number_format((float) $c['goal_amount']) ?></td>
                 <td>Rs <?= number_format((float) $c['raised_amount']) ?></td>
                 <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
+                <td><a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
