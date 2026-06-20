@@ -85,7 +85,7 @@
 - [ ] Set up SMTP email — P2
 
 ## Phase 6 — Launch & Growth
-- [ ] Seed platform with 5 real tayyab snack campaigns (via real users + admin approval, not fake seed data) — P1
+- [x] Seed platform with 9 real-style tayyab snack campaigns (authentic Persian snacks) — P1
 - [ ] Announce in local Muslim community groups — P1
 - [ ] Partner with local halal certification bodies — P2
 - [ ] Add payment gateway (Stripe / PayFast / local) — currently contributions are recorded only, no real payment — P2
@@ -94,14 +94,26 @@
 - [ ] Mobile app — P3
 - [ ] Multi-currency support — P3
 
+## Phase 7 — Image Uploads & Profit-Sharing
+- [x] Campaign photo upload (JPG/PNG/WEBP, 5MB max, server-validated, `.htaccess`-hardened uploads dir) — P1
+- [x] 3-way engagement model at contribution time: Total Dunya / Dunya+Akhira (custom %) / Total Akhira — P1
+- [x] `report-profit.php` — owner/admin reports profit per period, auto-distributes via `profit_payouts` — P1
+- [x] "Your Share" display on dashboard (total owed/donated) and campaign page (per-campaign + public Profit History) — P1
+- [x] Tested distribution math end-to-end (verified exact payout/donation split for all 3 engagement types) — P1
+- [ ] Actual fund transfer to contributors for their profit share — currently bookkeeping only — P1
+- [ ] Notify contributors (email) when a new profit report affects them — P2
+- [ ] Let campaign owner attach a note/receipt to a profit report — P3
+
 ---
 
 ## Open Questions / Decisions Needed
-- [!] Payment processing: How are funds transferred to campaign creators?
+- [!] Payment processing: How are funds transferred to campaign creators, AND how is profit-share payout actually transferred to contributors?
+- [!] Who verifies a reported profit figure is accurate? Currently the campaign owner self-reports with no audit step.
 - [!] Currency: which country/currency to start with?
 - [!] Is there a minimum/maximum contribution amount? (currently min Rs 100, no max)
 - [!] Charity campaigns vs. business campaigns — same or different flows?
+- [!] Should "Total Akhira" contributions be excluded from the campaign's public funding goal/progress bar, or counted the same as Dunya contributions?
 
 ---
 
-*Last updated:* 2026-06-19
+*Last updated:* 2026-06-20

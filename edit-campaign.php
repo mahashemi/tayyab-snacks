@@ -40,11 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$isAdmin) $status = $campaign['status']; // only admin may change status directly here
 
     if (!$errors) {
+        $imagePath = handleImageUpload('image', 'campaigns') ?? $campaign['image_url'];
         $stmt = $pdo->prepare(
-            'UPDATE campaigns SET title=?, description=?, goal_amount=?, category_id=?, city=?, deadline=?, status=?, updated_by=?, updated_at=NOW()
+            'UPDATE campaigns SET title=?, description=?, goal_amount=?, category_id=?, city=?, deadline=?, image_url=?, status=?, updated_by=?, updated_at=NOW()
              WHERE id=?'
         );
-        $stmt->execute([$title, $description, $goalAmount, $categoryId ?: null, $city, $deadline ?: null, $status, $user['id'], $id]);
+        $stmt->execute([$title, $description, $goalAmount, $categoryId ?: null, $city, $deadline ?: null, $imagePath, $status, $user['id'], $id]);
         flash('success', 'Campaign updated.');
         redirect('campaign.php?id=' . $id);
     }
@@ -75,8 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <div class="card"><div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
+
+            <div class="form-group">
+                <label class="form-label">Campaign Photo</label>
+                <?php if ($campaign['image_url']): ?>
+                    <img src="<?= e($campaign['image_url']) ?>" style="max-width:200px;border-radius:8px;margin-bottom:.6rem;display:block">
+                <?php endif; ?>
+                <input type="file" name="image" class="form-control" accept="image/jpeg,image/png,image/webp">
+                <div class="form-hint">Upload a new photo to replace the current one, or leave blank to keep it.</div>
+            </div>
 
             <div class="form-group">
                 <label class="form-label">Campaign Title</label>

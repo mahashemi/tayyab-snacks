@@ -35,7 +35,11 @@ Tayyab Snacks is a focused crowdfunding platform — not a general marketplace �
 | Country selector with auto-filled dial code + validated 10-digit phone | ✅ |
 | Admin panel — approve/reject pending campaigns, manage status, grant/revoke admin, export CSV | ✅ |
 | 9 starter campaigns seeded — authentic Persian snacks (Ardeh, Lavashak, Tokhmeh, Sohan, Gaz, etc.) | ✅ |
-| Payment gateway integration (currently contributions are recorded, not charged) | 🔜 planned |
+| Campaign photo upload (JPG/PNG/WEBP, 5MB max, validated server-side) | ✅ |
+| **3-way engagement model**: contributors choose Dunya / Mixed / Akhira profit-sharing per contribution | ✅ |
+| **Profit reporting & distribution**: campaign owner reports periodic profit, platform auto-splits it across contributors | ✅ |
+| "Your Share" — contributors see profit owed to them and amount donated, per campaign and overall | ✅ |
+| Payment gateway integration (currently contributions and profit payouts are recorded, not actually transferred) | 🔜 planned |
 | Verified "Tayyab Snack" badge for brands | 🔜 planned |
 
 ## Project Structure
@@ -53,9 +57,11 @@ tayyab_snacks/
 ├── submit.php                     # Submit a new campaign (goes to "pending" review)
 ├── dashboard.php                   # My campaigns & my contributions
 ├── edit-campaign.php               # Edit a campaign (owner or admin)
+├── report-profit.php               # Owner/admin reports profit; auto-distributes to contributors
 ├── edit-profile.php                # Edit your own profile
 ├── verify.php / verify-pending.php / resend-verification.php   # Email verification flow
 ├── admin.php                        # Admin panel (pending review, all campaigns, users, privileges, CSV export)
+├── uploads/campaigns/                # Uploaded campaign photos (.htaccess blocks script execution)
 ├── VISION.md                         # Product vision & mission
 └── TASKS.md                           # Project task tracker
 ```
@@ -102,6 +108,37 @@ New accounts must verify their email before logging in. `mail()` is attempted on
 ## Editing & Attribution
 
 Campaign creators can edit their own campaigns from `dashboard.php` or the campaign page. Admins can edit *any* campaign the same way (including changing its status). Whenever an admin edits someone else's campaign, the campaign page shows "Last edited by [Admin Name] (Admin)" so changes are always traceable.
+
+## Image Uploads
+
+Campaigns support a photo upload (JPG/PNG/WEBP, max 5MB). Files are validated server-side with `getimagesize()` (not just by extension), renamed to a random filename, and stored in `/uploads/campaigns/`. That folder has a `.htaccess` blocking PHP/script execution. If no photo is uploaded, campaigns fall back to a category icon.
+
+## Profit-Sharing Model (Dunya / Akhira)
+
+This is the platform's core differentiator: contributors aren't just donating — they can be entitled to a real share of the campaign's future profit, and choose how much of that share (if any) they want to keep versus donate.
+
+**At contribution time**, each contributor picks one of three engagement types:
+
+| Engagement | What it means |
+|---|---|
+| 🌍 **Total Dunya** | Contributor receives 100% of any profit share owed to them. |
+| 🌍🕊️ **Dunya + Akhira** | Contributor picks their own split (e.g. donate 40%, keep 60%) of their profit share. |
+| 🕊️ **Total Akhira** | Contributor donates 100% of any profit share owed to them — pure sadaqah, for the work of Imam-e-Zamana. |
+
+This choice is stored per-contribution as `akhira_percent` (0–100).
+
+**Reporting profit:** A campaign owner (or admin) periodically visits `/report-profit.php?id=X` and reports actual profit for a period (e.g. "June 2026: Rs 50,000"). The platform then:
+
+1. Calculates each contributor's **ownership fraction** = their contribution amount ÷ total amount contributed to that campaign.
+2. Calculates their **raw profit share** = reported profit × ownership fraction.
+3. Splits that raw share using their `akhira_percent`: `payout = raw_share × (100 − akhira_percent) / 100`, and the remainder is `donated`.
+4. Records one row per contribution in `profit_payouts`, linked to the `profit_reports` entry for that period.
+
+**Where it's shown:**
+- The campaign page shows a public **Profit History** table (period, profit reported, total paid out, total donated) and, if you've contributed, **your personal share** for that campaign.
+- Your dashboard shows your **total profit share owed** and **total donated on your behalf** across all campaigns, plus a per-contribution breakdown.
+
+**Important — what this is *not* (yet):** Contributions and profit payouts are bookkeeping records only. No real money is transferred to or from contributors automatically. A real payment gateway integration is required before this becomes a live financial product — see Security Notes below.
 
 ## Deployment
 

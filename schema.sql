@@ -66,15 +66,18 @@ CREATE TABLE IF NOT EXISTS campaigns (
 ) ENGINE=InnoDB;
 
 -- ── Contributions ─────────────────────────────────────────────────────────
+-- akhira_percent: 0 = Total Dunya (contributor keeps 100% of their profit share),
+-- 100 = Total Akhira (100% of their profit share is donated), 1-99 = mixed split.
 CREATE TABLE IF NOT EXISTS contributions (
-    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    campaign_id  INT UNSIGNED NOT NULL,
-    user_id      INT UNSIGNED,        -- NULL = anonymous
-    donor_name   VARCHAR(100),
-    amount       DECIMAL(10,2) NOT NULL,
-    message      TEXT,
-    is_anonymous TINYINT(1) DEFAULT 0,
-    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    campaign_id    INT UNSIGNED NOT NULL,
+    user_id        INT UNSIGNED,        -- NULL = anonymous
+    donor_name     VARCHAR(100),
+    amount         DECIMAL(10,2) NOT NULL,
+    message        TEXT,
+    is_anonymous   TINYINT(1) DEFAULT 0,
+    akhira_percent TINYINT UNSIGNED DEFAULT 0,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id)     REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_campaign (campaign_id)
@@ -91,6 +94,40 @@ BEGIN
     WHERE id = NEW.campaign_id;
 END$$
 DELIMITER ;
+
+-- ── Profit Reports ─────────────────────────────────────────────────────────
+-- A campaign creator (or admin) periodically reports actual profit for a period.
+-- The platform then distributes it across all contributors, proportional to
+-- their contribution amount, split per each contributor's chosen engagement type.
+CREATE TABLE IF NOT EXISTS profit_reports (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    campaign_id   INT UNSIGNED NOT NULL,
+    reported_by   INT UNSIGNED NULL,
+    period_label  VARCHAR(50) NOT NULL,   -- e.g. "June 2026"
+    profit_amount DECIMAL(12,2) NOT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
+    FOREIGN KEY (reported_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_campaign (campaign_id)
+) ENGINE=InnoDB;
+
+-- ── Profit Payouts ─────────────────────────────────────────────────────────
+-- One row per contribution per profit report: how much is owed to the
+-- contributor (payout_amount) vs. donated on their behalf (donated_amount).
+CREATE TABLE IF NOT EXISTS profit_payouts (
+    id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    profit_report_id INT UNSIGNED NOT NULL,
+    contribution_id  INT UNSIGNED NOT NULL,
+    user_id          INT UNSIGNED NULL,
+    payout_amount    DECIMAL(12,2) NOT NULL DEFAULT 0,
+    donated_amount   DECIMAL(12,2) NOT NULL DEFAULT 0,
+    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (profit_report_id) REFERENCES profit_reports(id) ON DELETE CASCADE,
+    FOREIGN KEY (contribution_id)  REFERENCES contributions(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id)          REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_report (profit_report_id),
+    INDEX idx_user (user_id)
+) ENGINE=InnoDB;
 
 -- ── Initial Admin Account ───────────────────────────────────────────────
 -- Default password: Admin@123

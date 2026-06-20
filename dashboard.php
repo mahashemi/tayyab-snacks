@@ -11,7 +11,10 @@ $stmt->execute([$user['id']]);
 $myCampaigns = $stmt->fetchAll();
 
 $stmt = $pdo->prepare(
-    "SELECT co.*, ca.title AS campaign_title FROM contributions co
+    "SELECT co.*, ca.title AS campaign_title,
+            (SELECT COALESCE(SUM(payout_amount),0) FROM profit_payouts WHERE contribution_id = co.id) AS my_payout,
+            (SELECT COALESCE(SUM(donated_amount),0) FROM profit_payouts WHERE contribution_id = co.id) AS my_donated
+     FROM contributions co
      JOIN campaigns ca ON ca.id = co.campaign_id
      WHERE co.user_id = ? ORDER BY co.created_at DESC"
 );
@@ -20,6 +23,8 @@ $myContributions = $stmt->fetchAll();
 
 $totalContributed = array_sum(array_column($myContributions, 'amount'));
 $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
+$totalProfitOwed = array_sum(array_column($myContributions, 'my_payout'));
+$totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +59,8 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
         <div class="stat-card"><div class="num"><?= count($myContributions) ?></div><div class="lbl">Contributions Made</div></div>
         <div class="stat-card"><div class="num"><?= count($myCampaigns) ?></div><div class="lbl">My Campaigns</div></div>
         <div class="stat-card"><div class="num">Rs <?= number_format((float) $totalRaisedForMe) ?></div><div class="lbl">Raised For My Campaigns</div></div>
+        <div class="stat-card"><div class="num">Rs <?= number_format($totalProfitOwed, 2) ?></div><div class="lbl">Your Profit Share Owed</div></div>
+        <div class="stat-card"><div class="num">Rs <?= number_format($totalProfitDonated, 2) ?></div><div class="lbl">Your Share Donated (Imam-e-Zamana)</div></div>
     </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -74,7 +81,10 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
                 <td>Rs <?= number_format((float) $c['goal_amount']) ?></td>
                 <td>Rs <?= number_format((float) $c['raised_amount']) ?></td>
                 <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
-                <td><a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a></td>
+                <td style="display:flex;gap:.4rem">
+                    <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a>
+                    <a href="report-profit.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Report Profit</a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
@@ -86,13 +96,15 @@ $totalRaisedForMe = array_sum(array_column($myCampaigns, 'raised_amount'));
         <div class="empty-state"><div class="icon">🤲</div><h3>You haven't contributed to any campaign yet</h3></div>
     <?php else: ?>
     <table class="table">
-        <thead><tr><th>Campaign</th><th>Amount</th><th>Message</th><th>Date</th></tr></thead>
+        <thead><tr><th>Campaign</th><th>Amount</th><th>Engagement</th><th>Your Share Owed</th><th>Donated</th><th>Date</th></tr></thead>
         <tbody>
             <?php foreach ($myContributions as $c): ?>
             <tr>
                 <td><a href="campaign.php?id=<?= (int) $c['campaign_id'] ?>"><?= e($c['campaign_title']) ?></a></td>
                 <td>Rs <?= number_format((float) $c['amount']) ?></td>
-                <td style="max-width:250px"><?= e($c['message'] ?: '—') ?></td>
+                <td style="font-size:.82rem"><?= e(engagementLabel((int) $c['akhira_percent'])) ?></td>
+                <td>Rs <?= number_format((float) $c['my_payout'], 2) ?></td>
+                <td>Rs <?= number_format((float) $c['my_donated'], 2) ?></td>
                 <td><?= date('M j, Y', strtotime($c['created_at'])) ?></td>
             </tr>
             <?php endforeach; ?>

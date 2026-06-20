@@ -22,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($deadline !== '' && strtotime($deadline) <= time()) $errors[] = 'Deadline must be a future date.';
 
     if (!$errors) {
+        $imagePath = handleImageUpload('image', 'campaigns');
         $stmt = $pdo->prepare(
-            'INSERT INTO campaigns (user_id, category_id, title, description, goal_amount, city, deadline, status)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO campaigns (user_id, category_id, title, description, goal_amount, city, deadline, image_url, status)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
-        $stmt->execute([$user['id'], $categoryId ?: null, $title, $description, $goalAmount, $city, $deadline ?: null, 'pending']);
+        $stmt->execute([$user['id'], $categoryId ?: null, $title, $description, $goalAmount, $city, $deadline ?: null, $imagePath, 'pending']);
         $newId = (int) $pdo->lastInsertId();
         flash('success', 'Your campaign has been submitted for review! We will activate it shortly.');
         redirect('dashboard.php');
@@ -58,8 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <div class="card"><div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
+
+            <div class="form-group">
+                <label class="form-label">Campaign Photo (optional)</label>
+                <input type="file" name="image" class="form-control" accept="image/jpeg,image/png,image/webp">
+                <div class="form-hint">JPG, PNG, or WEBP. Max 5MB. Leave blank to use a category icon instead.</div>
+            </div>
 
             <div class="form-group">
                 <label class="form-label">Campaign Title</label>

@@ -78,7 +78,7 @@ $stats = $pdo->query(
         ?>
         <a href="campaign.php?id=<?= (int) $c['id'] ?>" class="campaign-card" style="text-decoration:none;color:inherit">
             <div class="campaign-img">
-                <?= e($c['cat_icon'] ?: '🥨') ?>
+                <?php if ($c['image_url']): ?><img src="<?= e($c['image_url']) ?>" alt=""><?php else: ?><?= e($c['cat_icon'] ?: '🥨') ?><?php endif; ?>
                 <?php if ($c['cat_name']): ?><span class="campaign-cat-badge"><?= e($c['cat_name']) ?></span><?php endif; ?>
             </div>
             <div class="campaign-body">
