@@ -58,7 +58,7 @@ $stats = $pdo->query(
         </div>
         <div class="hero-stats">
             <div class="hero-stat"><span class="num"><?= (int) $stats['active_count'] ?></span><span class="lbl">Active Campaigns</span></div>
-            <div class="hero-stat"><span class="num">Rs <?= number_format((float) $stats['total_raised']) ?></span><span class="lbl">Total Raised</span></div>
+            <div class="hero-stat"><span class="num">$<?= number_format((float) $stats['total_raised']) ?></span><span class="lbl">Total Raised</span></div>
             <div class="hero-stat"><span class="num"><?= (int) $stats['contributor_count'] ?></span><span class="lbl">Contributions</span></div>
         </div>
     </div>
@@ -87,9 +87,9 @@ $stats = $pdo->query(
                 <div class="prog-wrap">
                     <div class="prog-bar"><div class="prog-fill" style="width:<?= $pct ?>%"></div></div>
                     <div class="prog-labels">
-                        <span class="prog-raised">Rs <?= number_format((float) $c['raised_amount']) ?></span>
+                        <span class="prog-raised">$<?= number_format((float) $c['raised_amount']) ?></span>
                         <span class="prog-pct"><?= $pct ?>%</span>
-                        <span class="prog-goal">of Rs <?= number_format((float) $c['goal_amount']) ?></span>
+                        <span class="prog-goal">of $<?= number_format((float) $c['goal_amount']) ?></span>
                     </div>
                 </div>
             </div>

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['amount'])) {
         if ($akhiraPercent < 1 || $akhiraPercent > 99) $akhiraPercent = 50;
     }
 
-    if ($amount < 100) $errors[] = 'Minimum contribution is Rs 100.';
+    if ($amount < 100) $errors[] = 'Minimum contribution is $100.';
     if (!$user && $donorName === '') $errors[] = 'Please enter your name.';
 
     if (!$errors) {
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['amount'])) {
             $anonymous,
             $akhiraPercent,
         ]);
-        flash('success', 'JazakAllah Khair! Your contribution of Rs ' . number_format($amount) . ' has been recorded.');
+        flash('success', 'JazakAllah Khair! Your contribution of $' . number_format($amount) . ' has been recorded.');
         redirect('campaign.php?id=' . $id);
     }
 }
@@ -135,9 +135,9 @@ function toggleAkhiraSlider() {
             <div class="prog-wrap">
                 <div class="prog-bar" style="height:14px"><div class="prog-fill" style="width:<?= $pct ?>%"></div></div>
                 <div class="prog-labels" style="font-size:.9rem;margin-top:.5rem">
-                    <span class="prog-raised">Rs <?= number_format((float) $campaign['raised_amount']) ?> raised</span>
+                    <span class="prog-raised">$<?= number_format((float) $campaign['raised_amount']) ?> raised</span>
                     <span class="prog-pct"><?= $pct ?>%</span>
-                    <span class="prog-goal">of Rs <?= number_format((float) $campaign['goal_amount']) ?> goal</span>
+                    <span class="prog-goal">of $<?= number_format((float) $campaign['goal_amount']) ?> goal</span>
                 </div>
             </div>
 
@@ -161,12 +161,12 @@ function toggleAkhiraSlider() {
 
             <div class="amount-presets">
                 <?php foreach ([500, 1000, 5000, 10000] as $amt): ?>
-                    <button type="button" class="preset-btn" onclick="document.getElementById('amountInput').value=<?= $amt ?>">Rs <?= number_format($amt) ?></button>
+                    <button type="button" class="preset-btn" onclick="document.getElementById('amountInput').value=<?= $amt ?>">$<?= number_format($amt) ?></button>
                 <?php endforeach; ?>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Amount (Rs)</label>
+                <label class="form-label">Amount ($)</label>
                 <input type="number" name="amount" id="amountInput" class="form-control" min="100" step="50" placeholder="Enter amount" required>
             </div>
 
@@ -218,7 +218,7 @@ function toggleAkhiraSlider() {
     <?php if ($myShare && ((float) $myShare['owed'] > 0 || (float) $myShare['donated'] > 0)): ?>
     <div class="alert alert-success" style="margin-top:1.5rem">
         <strong>Your Share from this campaign:</strong>
-        Rs <?= number_format((float) $myShare['owed'], 2) ?> owed to you, Rs <?= number_format((float) $myShare['donated'], 2) ?> donated on your behalf for the work of Imam-e-Zamana.
+        $<?= number_format((float) $myShare['owed'], 2) ?> owed to you, $<?= number_format((float) $myShare['donated'], 2) ?> donated on your behalf for the work of Imam-e-Zamana.
     </div>
     <?php endif; ?>
 
@@ -233,7 +233,7 @@ function toggleAkhiraSlider() {
                 <?php foreach ($contributions as $c): ?>
                 <tr>
                     <td><?= e($c['is_anonymous'] ? 'Anonymous' : $c['donor_name']) ?></td>
-                    <td>Rs <?= number_format((float) $c['amount']) ?></td>
+                    <td>$<?= number_format((float) $c['amount']) ?></td>
                     <td style="font-size:.82rem"><?= e(engagementLabel((int) $c['akhira_percent'])) ?></td>
                     <td style="max-width:250px"><?= e($c['message'] ?: '—') ?></td>
                     <td><?= date('M j, Y', strtotime($c['created_at'])) ?></td>
@@ -255,9 +255,9 @@ function toggleAkhiraSlider() {
                 <?php foreach ($profitReports as $r): ?>
                 <tr>
                     <td><?= e($r['period_label']) ?></td>
-                    <td>Rs <?= number_format((float) $r['profit_amount'], 2) ?></td>
-                    <td>Rs <?= number_format((float) $r['total_payout'], 2) ?></td>
-                    <td>Rs <?= number_format((float) $r['total_donated'], 2) ?></td>
+                    <td>$<?= number_format((float) $r['profit_amount'], 2) ?></td>
+                    <td>$<?= number_format((float) $r['total_payout'], 2) ?></td>
+                    <td>$<?= number_format((float) $r['total_donated'], 2) ?></td>
                     <td><?= date('M j, Y', strtotime($r['created_at'])) ?></td>
                 </tr>
                 <?php endforeach; ?>

@@ -102,7 +102,7 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
     <div class="stat-cards">
         <div class="stat-card"><div class="num"><?= (int) $stats['pending_count'] ?></div><div class="lbl">Pending Review</div></div>
         <div class="stat-card"><div class="num"><?= (int) $stats['active_count'] ?></div><div class="lbl">Active Campaigns</div></div>
-        <div class="stat-card"><div class="num">Rs <?= number_format((float) $stats['total_raised']) ?></div><div class="lbl">Total Raised</div></div>
+        <div class="stat-card"><div class="num">$<?= number_format((float) $stats['total_raised']) ?></div><div class="lbl">Total Raised</div></div>
         <div class="stat-card"><div class="num"><?= (int) $stats['total_users'] ?></div><div class="lbl">Total Users</div></div>
     </div>
 
@@ -124,7 +124,7 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
                         <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.3rem">by <?= e($c['creator_name']) ?> · <?= e($c['cat_name'] ?? 'Uncategorized') ?> · <?= e($c['city'] ?: 'N/A') ?></div>
                         <div class="card-title" style="font-size:1.1rem"><?= e($c['title']) ?></div>
                         <p style="color:var(--text-mid);font-size:.9rem;margin-top:.4rem"><?= e($c['description']) ?></p>
-                        <div style="margin-top:.5rem;font-weight:700;color:var(--green-deep)">Goal: Rs <?= number_format((float) $c['goal_amount']) ?></div>
+                        <div style="margin-top:.5rem;font-weight:700;color:var(--green-deep)">Goal: $<?= number_format((float) $c['goal_amount']) ?></div>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:.5rem;min-width:140px">
                         <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-outline btn-full">✏️ Edit First</a>
@@ -149,8 +149,8 @@ $users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll()
                 <tr>
                     <td><a href="campaign.php?id=<?= (int) $c['id'] ?>" target="_blank"><?= e($c['title']) ?></a></td>
                     <td><?= e($c['creator_name']) ?></td>
-                    <td>Rs <?= number_format((float) $c['goal_amount']) ?></td>
-                    <td>Rs <?= number_format((float) $c['raised_amount']) ?></td>
+                    <td>$<?= number_format((float) $c['goal_amount']) ?></td>
+                    <td>$<?= number_format((float) $c['raised_amount']) ?></td>
                     <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
                     <td style="display:flex;gap:.4rem;align-items:center">
                         <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a>

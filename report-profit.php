@@ -109,8 +109,8 @@ $reports = $reports->fetchAll();
 
     <?php if ($summary): ?>
         <div class="alert alert-success">
-            <strong><?= e($summary['period']) ?>:</strong> Rs <?= number_format($summary['profit']) ?> profit distributed across <?= $summary['contributors'] ?> contribution(s) —
-            Rs <?= number_format($summary['payout'], 2) ?> owed to contributors, Rs <?= number_format($summary['donated'], 2) ?> donated for the work of Imam-e-Zamana.
+            <strong><?= e($summary['period']) ?>:</strong> $<?= number_format($summary['profit']) ?> profit distributed across <?= $summary['contributors'] ?> contribution(s) —
+            $<?= number_format($summary['payout'], 2) ?> owed to contributors, $<?= number_format($summary['donated'], 2) ?> donated for the work of Imam-e-Zamana.
         </div>
     <?php endif; ?>
 
@@ -124,7 +124,7 @@ $reports = $reports->fetchAll();
                     <input type="text" name="period_label" class="form-control" placeholder="e.g. June 2026" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Profit Amount (Rs)</label>
+                    <label class="form-label">Profit Amount ($)</label>
                     <input type="number" name="profit_amount" class="form-control" min="0" step="0.01" placeholder="0" required>
                 </div>
             </div>
@@ -143,9 +143,9 @@ $reports = $reports->fetchAll();
             <?php foreach ($reports as $r): ?>
             <tr>
                 <td><?= e($r['period_label']) ?></td>
-                <td>Rs <?= number_format((float) $r['profit_amount'], 2) ?></td>
-                <td>Rs <?= number_format((float) $r['total_payout'], 2) ?></td>
-                <td>Rs <?= number_format((float) $r['total_donated'], 2) ?></td>
+                <td>$<?= number_format((float) $r['profit_amount'], 2) ?></td>
+                <td>$<?= number_format((float) $r['total_payout'], 2) ?></td>
+                <td>$<?= number_format((float) $r['total_donated'], 2) ?></td>
                 <td><?= date('M j, Y', strtotime($r['created_at'])) ?></td>
             </tr>
             <?php endforeach; ?>

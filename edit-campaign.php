@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (mb_strlen($title) < 8) $errors[] = 'Title must be at least 8 characters.';
     if (mb_strlen($description) < 30) $errors[] = 'Description must be at least 30 characters.';
-    if ($goalAmount < 1000) $errors[] = 'Goal amount must be at least Rs 1,000.';
+    if ($goalAmount < 1000) $errors[] = 'Goal amount must be at least $1,000.';
     if (!$isAdmin) $status = $campaign['status']; // only admin may change status directly here
 
     if (!$errors) {
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">Funding Goal (Rs)</label>
+                    <label class="form-label">Funding Goal ($)</label>
                     <input type="number" name="goal_amount" class="form-control" min="1000" step="100" value="<?= e($_POST['goal_amount'] ?? $campaign['goal_amount']) ?>" required>
                 </div>
                 <div class="form-group">

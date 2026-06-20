@@ -73,9 +73,9 @@ $campaigns = $stmt->fetchAll();
                 <div class="prog-wrap">
                     <div class="prog-bar"><div class="prog-fill" style="width:<?= $pct ?>%"></div></div>
                     <div class="prog-labels">
-                        <span class="prog-raised">Rs <?= number_format((float) $c['raised_amount']) ?></span>
+                        <span class="prog-raised">$<?= number_format((float) $c['raised_amount']) ?></span>
                         <span class="prog-pct"><?= $pct ?>%</span>
-                        <span class="prog-goal">of Rs <?= number_format((float) $c['goal_amount']) ?></span>
+                        <span class="prog-goal">of $<?= number_format((float) $c['goal_amount']) ?></span>
                     </div>
                 </div>
             </div>

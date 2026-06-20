@@ -110,7 +110,7 @@
 - [!] Payment processing: How are funds transferred to campaign creators, AND how is profit-share payout actually transferred to contributors?
 - [!] Who verifies a reported profit figure is accurate? Currently the campaign owner self-reports with no audit step.
 - [!] Currency: which country/currency to start with?
-- [!] Is there a minimum/maximum contribution amount? (currently min Rs 100, no max)
+- [!] Is there a minimum/maximum contribution amount? (currently min $100, no max)
 - [!] Charity campaigns vs. business campaigns — same or different flows?
 - [!] Should "Total Akhira" contributions be excluded from the campaign's public funding goal/progress bar, or counted the same as Dunya contributions?
 

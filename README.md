@@ -127,7 +127,7 @@ This is the platform's core differentiator: contributors aren't just donating �
 
 This choice is stored per-contribution as `akhira_percent` (0–100).
 
-**Reporting profit:** A campaign owner (or admin) periodically visits `/report-profit.php?id=X` and reports actual profit for a period (e.g. "June 2026: Rs 50,000"). The platform then:
+**Reporting profit:** A campaign owner (or admin) periodically visits `/report-profit.php?id=X` and reports actual profit for a period (e.g. "June 2026: $50,000"). The platform then:
 
 1. Calculates each contributor's **ownership fraction** = their contribution amount ÷ total amount contributed to that campaign.
 2. Calculates their **raw profit share** = reported profit × ownership fraction.

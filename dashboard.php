@@ -55,12 +55,12 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
     <?php if (flash('success')): ?><div class="alert alert-success"><?= e(flash('success')) ?></div><?php endif; ?>
 
     <div class="stat-cards">
-        <div class="stat-card"><div class="num">Rs <?= number_format((float) $totalContributed) ?></div><div class="lbl">Total Contributed</div></div>
+        <div class="stat-card"><div class="num">$<?= number_format((float) $totalContributed) ?></div><div class="lbl">Total Contributed</div></div>
         <div class="stat-card"><div class="num"><?= count($myContributions) ?></div><div class="lbl">Contributions Made</div></div>
         <div class="stat-card"><div class="num"><?= count($myCampaigns) ?></div><div class="lbl">My Campaigns</div></div>
-        <div class="stat-card"><div class="num">Rs <?= number_format((float) $totalRaisedForMe) ?></div><div class="lbl">Raised For My Campaigns</div></div>
-        <div class="stat-card"><div class="num">Rs <?= number_format($totalProfitOwed, 2) ?></div><div class="lbl">Your Profit Share Owed</div></div>
-        <div class="stat-card"><div class="num">Rs <?= number_format($totalProfitDonated, 2) ?></div><div class="lbl">Your Share Donated (Imam-e-Zamana)</div></div>
+        <div class="stat-card"><div class="num">$<?= number_format((float) $totalRaisedForMe) ?></div><div class="lbl">Raised For My Campaigns</div></div>
+        <div class="stat-card"><div class="num">$<?= number_format($totalProfitOwed, 2) ?></div><div class="lbl">Your Profit Share Owed</div></div>
+        <div class="stat-card"><div class="num">$<?= number_format($totalProfitDonated, 2) ?></div><div class="lbl">Your Share Donated (Imam-e-Zamana)</div></div>
     </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -78,8 +78,8 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
             <tr>
                 <td><a href="campaign.php?id=<?= (int) $c['id'] ?>"><?= e($c['title']) ?></a></td>
                 <td><?= e($c['cat_name'] ?? '—') ?></td>
-                <td>Rs <?= number_format((float) $c['goal_amount']) ?></td>
-                <td>Rs <?= number_format((float) $c['raised_amount']) ?></td>
+                <td>$<?= number_format((float) $c['goal_amount']) ?></td>
+                <td>$<?= number_format((float) $c['raised_amount']) ?></td>
                 <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
                 <td style="display:flex;gap:.4rem">
                     <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a>
@@ -101,10 +101,10 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
             <?php foreach ($myContributions as $c): ?>
             <tr>
                 <td><a href="campaign.php?id=<?= (int) $c['campaign_id'] ?>"><?= e($c['campaign_title']) ?></a></td>
-                <td>Rs <?= number_format((float) $c['amount']) ?></td>
+                <td>$<?= number_format((float) $c['amount']) ?></td>
                 <td style="font-size:.82rem"><?= e(engagementLabel((int) $c['akhira_percent'])) ?></td>
-                <td>Rs <?= number_format((float) $c['my_payout'], 2) ?></td>
-                <td>Rs <?= number_format((float) $c['my_donated'], 2) ?></td>
+                <td>$<?= number_format((float) $c['my_payout'], 2) ?></td>
+                <td>$<?= number_format((float) $c['my_donated'], 2) ?></td>
                 <td><?= date('M j, Y', strtotime($c['created_at'])) ?></td>
             </tr>
             <?php endforeach; ?>
