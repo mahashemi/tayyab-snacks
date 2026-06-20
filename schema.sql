@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS users (
     verification_expires  DATETIME NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_email (email)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── Campaign Categories (Snack-Focused) ────────────────────────────────────
 CREATE TABLE IF NOT EXISTS categories (
     id   INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     icon VARCHAR(10)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO categories (name, icon) VALUES
 ('Packaged Snacks (Chips, Crackers, Namkeen)', '🥨'),
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     FOREIGN KEY (updated_by)  REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_status (status),
     INDEX idx_user (user_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── Contributions ─────────────────────────────────────────────────────────
 -- akhira_percent: 0 = Total Dunya (contributor keeps 100% of their profit share),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS contributions (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id)     REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_campaign (campaign_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── Trigger: Update campaign raised_amount on contribution ────────────────
 DELIMITER $$
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS profit_reports (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE,
     FOREIGN KEY (reported_by) REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_campaign (campaign_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── Profit Payouts ─────────────────────────────────────────────────────────
 -- One row per contribution per profit report: how much is owed to the
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS profit_payouts (
     FOREIGN KEY (user_id)          REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_report (profit_report_id),
     INDEX idx_user (user_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── Initial Admin Account ───────────────────────────────────────────────
 -- Default password: Admin@123
