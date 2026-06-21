@@ -95,6 +95,8 @@ $reports = $reports->fetchAll();
 <body>
 <nav class="navbar">
     <div class="nav-brand">🥨 <?= e(SITE_NAME) ?></div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links"><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a></div>
 </nav>
 
@@ -156,5 +158,6 @@ $reports = $reports->fetchAll();
 
     <p style="margin-top:1.5rem"><a href="campaign.php?id=<?= $id ?>" class="btn btn-outline">← Back to Campaign</a></p>
 </div>
+<script src="app.js" defer></script>
 </body>
 </html>
