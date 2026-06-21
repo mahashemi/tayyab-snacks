@@ -7,8 +7,11 @@ define('DB_USER', 'root');          // Change to your DB username
 define('DB_PASS', '');              // Change to your DB password
 define('DB_NAME', 'tayyab_snacks');
 
-define('SITE_NAME', 'Tayyab Snacks');
-define('SITE_TAGLINE', 'Pure Snacks. Pure Intentions. Pure Community.');
+// SITE_NAME and SITE_TAGLINE are loaded dynamically from the `settings` database
+// table (editable by admins at /admin.php → Settings tab). These are fallback
+// defaults used only if the table is empty or missing.
+define('SITE_NAME_DEFAULT', 'Tayyab Snacks');
+define('SITE_TAGLINE_DEFAULT', 'Pure Snacks. Pure Intentions. Pure Community.');
 define('SITE_URL', '');             // e.g. https://tayyabsnacks.com
 
 // Email verification: when true, the verification link is also shown on screen
