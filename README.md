@@ -34,6 +34,9 @@ Tayyab Snacks is a focused crowdfunding platform — not a general marketplace �
 | Personal dashboard — my campaigns & my contributions | ✅ |
 | Country selector with auto-filled dial code + validated 10-digit phone | ✅ |
 | Admin panel — approve/reject pending campaigns, manage status, grant/revoke admin, export CSV | ✅ |
+| Admin-managed categories (add/edit/delete) — no code changes needed | ✅ |
+| Admin-editable site settings (name, tagline) | ✅ |
+| Mobile-first responsive design — Material Design 3 navigation drawer, card-based tables on small screens | ✅ |
 | 9 starter campaigns seeded — authentic Persian snacks (Ardeh, Lavashak, Tokhmeh, Sohan, Gaz, etc.) | ✅ |
 | Campaign photo upload (JPG/PNG/WEBP, 5MB max, validated server-side) | ✅ |
 | **3-way engagement model**: contributors choose Dunya / Mixed / Akhira profit-sharing per contribution | ✅ |
@@ -98,8 +101,14 @@ Visit `/admin.php` while logged in as an admin (`is_admin = 1`) to:
 - View, edit, and change the status of any campaign (pending / active / funded / closed / rejected)
 - **Grant or revoke admin privileges** for any other user (you cannot demote yourself)
 - View and CSV-export users, campaigns, and contributions
+- **Categories tab** — add, edit, or delete campaign categories (name, icon) without touching code
+- **Settings tab** — edit the site name and tagline shown across the app
 
 > New campaigns submitted via `/submit.php` are **not visible on the site** until an admin approves them from `/admin.php` → Pending tab.
+
+## Design System
+
+Built on Material Design 3 structural conventions (Roboto type, M3 elevation tiers, 8/14/16px shape scale, modal navigation drawer pattern on mobile) layered on top of the site's own warm green/gold/amber food branding — not Google's default color palette. See `style.css` for the token definitions (`:root`).
 
 ## Email Verification
 
