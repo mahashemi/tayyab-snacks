@@ -67,6 +67,28 @@ $stats = $pdo->query(
     </div>
 </header>
 
+<?php if (!$user): ?>
+<section class="mission-band">
+    <div class="mission-grid">
+        <div>
+            <h3>🎯 Our Vision</h3>
+            <p>To build the go-to community-funded platform for halal, additive-free snack and packaged food entrepreneurs — helping Muslim families trust what they feed their children, and helping small tayyab snack makers get the capital to grow.</p>
+        </div>
+        <div>
+            <h3>🌍 Our Mission</h3>
+            <p>A contribution (crowdfunding) platform focused specifically on packaged and snack food campaigns — from home-based snack makers launching their first product, to small halal brands scaling production — funded directly by the Muslim community.</p>
+        </div>
+    </div>
+    <div class="mission-cta">
+        <p>Already have an account?</p>
+        <div class="hero-actions" style="justify-content:center">
+            <a href="login.php" class="btn btn-primary">Log In</a>
+            <a href="register.php" class="btn btn-outline">Create Free Account</a>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <div class="container section" id="campaigns">
     <h2 class="section-title">Active <span>Campaigns</span></h2>
     <p class="section-sub">Support these halal snack and packaged food initiatives</p>
