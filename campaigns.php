@@ -48,10 +48,10 @@ $campaigns = $stmt->fetchAll();
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
-    <div class="category-grid" style="display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:2rem">
-        <a href="campaigns.php" class="cat-chip <?= $catId === 0 ? 'active' : '' ?>" style="display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;background:var(--white);border:1.5px solid var(--border);border-radius:20px;font-size:.88rem;text-decoration:none;color:var(--text)">🍽️ All Categories</a>
+    <div class="chip-row">
+        <a href="campaigns.php" class="cat-chip <?= $catId === 0 ? 'active' : '' ?>">🍽️ All Categories</a>
         <?php foreach ($categories as $c): ?>
-            <a href="?cat=<?= (int) $c['id'] ?>" class="cat-chip <?= $catId === (int) $c['id'] ? 'active' : '' ?>" style="display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;background:var(--white);border:1.5px solid var(--border);border-radius:20px;font-size:.88rem;text-decoration:none;color:var(--text)"><?= e($c['icon']) ?> <?= e($c['name']) ?></a>
+            <a href="?cat=<?= (int) $c['id'] ?>" class="cat-chip <?= $catId === (int) $c['id'] ? 'active' : '' ?>"><?= e($c['icon']) ?> <?= e($c['name']) ?></a>
         <?php endforeach; ?>
     </div>
 
