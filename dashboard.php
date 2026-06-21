@@ -87,9 +87,9 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
                 <td>$<?= number_format((float) $c['goal_amount']) ?></td>
                 <td>$<?= number_format((float) $c['raised_amount']) ?></td>
                 <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
-                <td style="display:flex;gap:.4rem">
-                    <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Edit</a>
-                    <a href="report-profit.php?id=<?= (int) $c['id'] ?>" class="btn btn-sm btn-outline">Report Profit</a>
+                <td class="action-row">
+                    <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Edit campaign" aria-label="Edit campaign">✏️</a>
+                    <a href="report-profit.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Report profit" aria-label="Report profit">📊</a>
                 </td>
             </tr>
             <?php endforeach; ?>
