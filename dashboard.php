@@ -37,15 +37,18 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
 </head>
 <body>
 <nav class="navbar">
-    <div class="nav-brand">🥨 <?= e(SITE_NAME) ?></div>
+    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
     <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
+        <span class="nav-user">👤 <?= e($user['name']) ?></span>
         <a href="campaigns.php">Campaigns</a>
         <a href="submit.php">+ Start a Campaign</a>
         <a href="edit-profile.php">Edit Profile</a>
         <?php if (!empty($user['is_admin'])): ?><a href="admin.php">Admin</a><?php endif; ?>
         <a href="logout.php" class="nav-btn">Logout</a>
+        <a href="about.php">About</a>
+        <a href="feedback.php">Feedback</a>
     </div>
 </nav>
 

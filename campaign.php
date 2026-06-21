@@ -101,13 +101,15 @@ function toggleAkhiraSlider() {
 </head>
 <body>
 <nav class="navbar">
-    <div class="nav-brand">🥨 <?= e(SITE_NAME) ?></div>
+    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
     <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
-        <?php if ($user): ?><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
+        <?php if ($user): ?><span class="nav-user">👤 <?= e($user['name']) ?></span><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
         <?php else: ?><a href="login.php" class="nav-btn">Login</a><?php endif; ?>
+        <a href="about.php">About</a>
+        <a href="feedback.php">Feedback</a>
     </div>
 </nav>
 
