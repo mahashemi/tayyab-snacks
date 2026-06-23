@@ -148,7 +148,7 @@ function toggleAkhiraSlider() {
 
             <div style="display:flex;gap:1.5rem;margin-top:1rem;font-size:.85rem;color:var(--text-light)">
                 <span><i data-lucide="map-pin" class="lucide-icon"></i> <?= e($campaign['city'] ?: 'N/A') ?></span>
-                <span>⏳ <?= $daysLeft !== null ? $daysLeft . ' days left' : 'No deadline' ?></span>
+                <span><i data-lucide="clock" class="lucide-icon"></i> <?= $daysLeft !== null ? $daysLeft . ' days left' : 'No deadline' ?></span>
                 <span><i data-lucide="user" class="lucide-icon"></i> by <a href="#"><?= e($campaign['creator_name']) ?></a></span>
             </div>
         </div>

@@ -139,7 +139,7 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
     </div>
 
     <div class="tabs">
-        <a href="?tab=pending" class="tab-btn <?= $tab === 'pending' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">⏳ Pending (<?= count($pending) ?>)</a>
+        <a href="?tab=pending" class="tab-btn <?= $tab === 'pending' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="clock" class="lucide-icon"></i> Pending (<?= count($pending) ?>)</a>
         <a href="?tab=campaigns" class="tab-btn <?= $tab === 'campaigns' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="cookie" class="lucide-icon"></i> All Campaigns (<?= count($allCampaigns) ?>)</a>
         <a href="?tab=users" class="tab-btn <?= $tab === 'users' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="users" class="lucide-icon"></i> Users (<?= count($users) ?>)</a>
         <a href="?tab=categories" class="tab-btn <?= $tab === 'categories' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="tag" class="lucide-icon"></i> Categories (<?= count($categories) ?>)</a>
