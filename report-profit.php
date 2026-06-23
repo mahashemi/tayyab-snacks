@@ -94,16 +94,16 @@ $reports = $reports->fetchAll();
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
-        <span class="nav-user">👤 <?= e($user['name']) ?></span><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a><a href="about.php">About</a><a href="feedback.php">Feedback</a></div>
+        <span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a><a href="about.php">About</a><a href="feedback.php">Feedback</a></div>
 </nav>
 
 <div class="dashboard-wrap">
     <div class="dashboard-header">
-        <h2>📊 Report Profit — <?= e($campaign['title']) ?></h2>
+        <h2><i data-lucide="bar-chart-3" class="lucide-icon"></i> Report Profit — <?= e($campaign['title']) ?></h2>
         <p>Report this campaign's profit for a period. It will be split across all contributors based on their contribution share and chosen engagement type (Dunya / Mixed / Akhira).</p>
     </div>
 
@@ -139,7 +139,7 @@ $reports = $reports->fetchAll();
 
     <h3 style="margin-bottom:1rem;font-size:1.1rem;color:var(--green-deep)">Profit History (<?= count($reports) ?>)</h3>
     <?php if (!$reports): ?>
-        <div class="empty-state"><div class="icon">📊</div><h3>No profit reported yet</h3></div>
+        <div class="empty-state"><div class="icon"><i data-lucide="bar-chart-3" class="lucide-icon"></i></div><h3>No profit reported yet</h3></div>
     <?php else: ?>
     <table class="table">
         <thead><tr><th>Period</th><th>Profit Reported</th><th>Paid to Contributors</th><th>Donated</th><th>Date</th></tr></thead>
@@ -157,8 +157,10 @@ $reports = $reports->fetchAll();
     </table>
     <?php endif; ?>
 
-    <p style="margin-top:1.5rem"><a href="campaign.php?id=<?= $id ?>" class="btn btn-outline">← Back to Campaign</a></p>
+    <p style="margin-top:1.5rem"><a href="campaign.php?id=<?= $id ?>" class="btn btn-outline"><i data-lucide="arrow-left" class="lucide-icon"></i> Back to Campaign</a></p>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

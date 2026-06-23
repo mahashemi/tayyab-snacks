@@ -101,12 +101,12 @@ function toggleAkhiraSlider() {
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
-        <?php if ($user): ?><span class="nav-user">👤 <?= e($user['name']) ?></span><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
+        <?php if ($user): ?><span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
         <?php else: ?><a href="login.php" class="nav-btn">Login</a><?php endif; ?>
         <a href="about.php">About</a>
         <a href="feedback.php">Feedback</a>
@@ -118,15 +118,15 @@ function toggleAkhiraSlider() {
 
     <div class="card">
         <div class="campaign-img" style="height:240px;font-size:5rem">
-            <?php if ($campaign['image_url']): ?><img src="<?= e($campaign['image_url']) ?>" alt=""><?php else: ?><?= e($campaign['cat_icon'] ?: '🥨') ?><?php endif; ?>
+            <?php if ($campaign['image_url']): ?><img src="<?= e($campaign['image_url']) ?>" alt=""><?php else: ?><?= catIcon($campaign['cat_icon'] ?: 'cookie') ?><?php endif; ?>
         </div>
         <div class="card-body">
             <?php if ($campaign['cat_name']): ?><span class="badge badge-active" style="margin-bottom:.6rem;display:inline-block"><?= e($campaign['cat_name']) ?></span><?php endif; ?>
             <div style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap">
                 <h1 style="font-size:1.5rem;margin-bottom:.6rem"><?= e($campaign['title']) ?></h1>
                 <?php if ($user && ($user['id'] == $campaign['user_id'] || !empty($user['is_admin']))): ?>
-                    <a href="edit-campaign.php?id=<?= $id ?>" class="btn btn-sm btn-outline">✏️ Edit</a>
-                    <a href="report-profit.php?id=<?= $id ?>" class="btn btn-sm btn-outline">📊 Report Profit</a>
+                    <a href="edit-campaign.php?id=<?= $id ?>" class="btn btn-sm btn-outline"><i data-lucide="pencil" class="lucide-icon"></i> Edit</a>
+                    <a href="report-profit.php?id=<?= $id ?>" class="btn btn-sm btn-outline"><i data-lucide="bar-chart-3" class="lucide-icon"></i> Report Profit</a>
                 <?php endif; ?>
             </div>
             <p style="color:var(--text-mid);white-space:pre-line;margin-bottom:1.2rem"><?= e($campaign['description']) ?></p>
@@ -147,15 +147,15 @@ function toggleAkhiraSlider() {
             </div>
 
             <div style="display:flex;gap:1.5rem;margin-top:1rem;font-size:.85rem;color:var(--text-light)">
-                <span>📍 <?= e($campaign['city'] ?: 'N/A') ?></span>
+                <span><i data-lucide="map-pin" class="lucide-icon"></i> <?= e($campaign['city'] ?: 'N/A') ?></span>
                 <span>⏳ <?= $daysLeft !== null ? $daysLeft . ' days left' : 'No deadline' ?></span>
-                <span>👤 by <a href="#"><?= e($campaign['creator_name']) ?></a></span>
+                <span><i data-lucide="user" class="lucide-icon"></i> by <a href="#"><?= e($campaign['creator_name']) ?></a></span>
             </div>
         </div>
     </div>
 
     <div class="contribute-section">
-        <h3>💝 Contribute to this Campaign</h3>
+        <h3><i data-lucide="gift" class="lucide-icon"></i> Contribute to this Campaign</h3>
 
         <?php if ($errors): ?>
             <div class="alert alert-error"><?php foreach ($errors as $err): ?><div><?= e($err) ?></div><?php endforeach; ?></div>
@@ -187,15 +187,15 @@ function toggleAkhiraSlider() {
                 <div style="display:flex;flex-direction:column;gap:.6rem">
                     <label style="display:flex;align-items:start;gap:.6rem;cursor:pointer;padding:.7rem;border:1.5px solid var(--border);border-radius:var(--radius-sm)">
                         <input type="radio" name="engagement" value="dunya" checked onchange="toggleAkhiraSlider()" style="width:auto;margin-top:.2rem">
-                        <span><strong>🌍 Total Dunya</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll receive 100% of any profit share owed to me.</span></span>
+                        <span><strong><i data-lucide="globe" class="lucide-icon"></i> Total Dunya</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll receive 100% of any profit share owed to me.</span></span>
                     </label>
                     <label style="display:flex;align-items:start;gap:.6rem;cursor:pointer;padding:.7rem;border:1.5px solid var(--border);border-radius:var(--radius-sm)">
                         <input type="radio" name="engagement" value="mixed" onchange="toggleAkhiraSlider()" style="width:auto;margin-top:.2rem">
-                        <span><strong>🌍🕊️ Dunya + Akhira</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll donate part of my profit share for the work of Imam-e-Zamana, and keep the rest.</span></span>
+                        <span><strong><i data-lucide="scale" class="lucide-icon"></i> Dunya + Akhira</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll donate part of my profit share for the work of Imam-e-Zamana, and keep the rest.</span></span>
                     </label>
                     <label style="display:flex;align-items:start;gap:.6rem;cursor:pointer;padding:.7rem;border:1.5px solid var(--border);border-radius:var(--radius-sm)">
                         <input type="radio" name="engagement" value="akhira" onchange="toggleAkhiraSlider()" style="width:auto;margin-top:.2rem">
-                        <span><strong>🕊️ Total Akhira</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll donate 100% of any profit share owed to me.</span></span>
+                        <span><strong><i data-lucide="heart-handshake" class="lucide-icon"></i> Total Akhira</strong><br><span style="font-size:.82rem;color:var(--text-light)">I'll donate 100% of any profit share owed to me.</span></span>
                     </label>
                 </div>
                 <div id="akhiraSliderWrap" style="display:none;margin-top:.7rem">
@@ -230,7 +230,7 @@ function toggleAkhiraSlider() {
     <h3 style="margin:1.8rem 0 1rem;font-size:1.1rem;color:var(--green-deep)">Recent Contributions (<?= count($contributions) ?>)</h3>
     <div class="card">
         <?php if (!$contributions): ?>
-            <div class="empty-state"><div class="icon">🤲</div><h3>Be the first to contribute</h3></div>
+            <div class="empty-state"><div class="icon"><i data-lucide="hand-coins" class="lucide-icon"></i></div><h3>Be the first to contribute</h3></div>
         <?php else: ?>
         <table class="table">
             <thead><tr><th>Name</th><th>Amount</th><th>Engagement</th><th>Message</th><th>Date</th></tr></thead>
@@ -252,7 +252,7 @@ function toggleAkhiraSlider() {
     <h3 style="margin:1.8rem 0 1rem;font-size:1.1rem;color:var(--green-deep)">Profit History (<?= count($profitReports) ?>)</h3>
     <div class="card">
         <?php if (!$profitReports): ?>
-            <div class="empty-state"><div class="icon">📊</div><h3>No profit reported yet for this campaign</h3></div>
+            <div class="empty-state"><div class="icon"><i data-lucide="bar-chart-3" class="lucide-icon"></i></div><h3>No profit reported yet for this campaign</h3></div>
         <?php else: ?>
         <table class="table">
             <thead><tr><th>Period</th><th>Profit Reported</th><th>Paid to Contributors</th><th>Donated</th><th>Date</th></tr></thead>
@@ -271,6 +271,8 @@ function toggleAkhiraSlider() {
         <?php endif; ?>
     </div>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

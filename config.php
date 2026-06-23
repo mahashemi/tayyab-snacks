@@ -8,7 +8,7 @@ define('DB_PASS', '');              // Change to your DB password
 define('DB_NAME', 'tayyab_snacks');
 
 // SITE_NAME and SITE_TAGLINE are loaded dynamically from the `settings` database
-// table (editable by admins at /admin.php → Settings tab). These are fallback
+// table (editable by admins at /admin.php -> Settings tab). These are fallback
 // defaults used only if the table is empty or missing.
 define('SITE_NAME_DEFAULT', 'Tayyab Snacks');
 define('SITE_TAGLINE_DEFAULT', 'Pure Snacks. Pure Intentions. Pure Community.');

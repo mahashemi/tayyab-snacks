@@ -37,11 +37,11 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
-        <span class="nav-user">👤 <?= e($user['name']) ?></span>
+        <span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span>
         <a href="campaigns.php">Campaigns</a>
         <a href="submit.php">+ Start a Campaign</a>
         <a href="edit-profile.php">Edit Profile</a>
@@ -54,7 +54,7 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
 
 <div class="dashboard-wrap">
     <div class="dashboard-header">
-        <h2>👋 Welcome, <?= e($user['name']) ?></h2>
+        <h2>Welcome, <?= e($user['name']) ?></h2>
         <p>Track your contributions and your submitted campaigns.</p>
     </div>
 
@@ -75,7 +75,7 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
     </div>
 
     <?php if (!$myCampaigns): ?>
-        <div class="empty-state"><div class="icon">🥨</div><h3>You haven't started a campaign yet</h3></div>
+        <div class="empty-state"><div class="icon"><i data-lucide="cookie" class="lucide-icon"></i></div><h3>You haven't started a campaign yet</h3></div>
     <?php else: ?>
     <table class="table" style="margin-bottom:2rem">
         <thead><tr><th>Title</th><th>Category</th><th>Goal</th><th>Raised</th><th>Status</th><th></th></tr></thead>
@@ -88,8 +88,8 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
                 <td>$<?= number_format((float) $c['raised_amount']) ?></td>
                 <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
                 <td class="action-row">
-                    <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Edit campaign" aria-label="Edit campaign">✏️</a>
-                    <a href="report-profit.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Report profit" aria-label="Report profit">📊</a>
+                    <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Edit campaign" aria-label="Edit campaign"><i data-lucide="pencil" class="lucide-icon"></i></a>
+                    <a href="report-profit.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Report profit" aria-label="Report profit"><i data-lucide="bar-chart-3" class="lucide-icon"></i></a>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -99,7 +99,7 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
 
     <h3 style="font-size:1.1rem;color:var(--green-deep);margin-bottom:1rem">My Contributions</h3>
     <?php if (!$myContributions): ?>
-        <div class="empty-state"><div class="icon">🤲</div><h3>You haven't contributed to any campaign yet</h3></div>
+        <div class="empty-state"><div class="icon"><i data-lucide="hand-coins" class="lucide-icon"></i></div><h3>You haven't contributed to any campaign yet</h3></div>
     <?php else: ?>
     <table class="table">
         <thead><tr><th>Campaign</th><th>Amount</th><th>Engagement</th><th>Your Share Owed</th><th>Donated</th><th>Date</th></tr></thead>
@@ -118,6 +118,8 @@ $totalProfitDonated = array_sum(array_column($myContributions, 'my_donated'));
     </table>
     <?php endif; ?>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

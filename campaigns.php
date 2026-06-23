@@ -30,12 +30,12 @@ $campaigns = $stmt->fetchAll();
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
-        <?php if ($user): ?><span class="nav-user">👤 <?= e($user['name']) ?></span><a href="submit.php">+ Start a Campaign</a><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
+        <?php if ($user): ?><span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span><a href="submit.php">+ Start a Campaign</a><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a>
         <?php else: ?><a href="login.php" class="nav-btn">Login</a><?php endif; ?>
         <a href="about.php">About</a>
         <a href="feedback.php">Feedback</a>
@@ -51,16 +51,16 @@ $campaigns = $stmt->fetchAll();
     </form>
 
     <div class="chip-row">
-        <a href="campaigns.php" class="cat-chip <?= $catId === 0 ? 'active' : '' ?>">🍽️ All Categories</a>
+        <a href="campaigns.php" class="cat-chip <?= $catId === 0 ? 'active' : '' ?>"><i data-lucide="utensils" class="lucide-icon"></i> All Categories</a>
         <?php foreach ($categories as $c): ?>
-            <a href="?cat=<?= (int) $c['id'] ?>" class="cat-chip <?= $catId === (int) $c['id'] ? 'active' : '' ?>"><?= e($c['icon']) ?> <?= e($c['name']) ?></a>
+            <a href="?cat=<?= (int) $c['id'] ?>" class="cat-chip <?= $catId === (int) $c['id'] ? 'active' : '' ?>"><?= catIcon($c['icon']) ?> <?= e($c['name']) ?></a>
         <?php endforeach; ?>
     </div>
 
     <p class="section-sub"><?= count($campaigns) ?> campaign(s) found</p>
 
     <?php if (!$campaigns): ?>
-        <div class="empty-state"><div class="icon">📭</div><h3>No campaigns found</h3></div>
+        <div class="empty-state"><div class="icon"><i data-lucide="inbox" class="lucide-icon"></i></div><h3>No campaigns found</h3></div>
     <?php else: ?>
     <div class="grid-3">
         <?php foreach ($campaigns as $c):
@@ -69,7 +69,7 @@ $campaigns = $stmt->fetchAll();
         ?>
         <a href="campaign.php?id=<?= (int) $c['id'] ?>" class="campaign-card" style="text-decoration:none;color:inherit">
             <div class="campaign-img">
-                <?php if ($c['image_url']): ?><img src="<?= e($c['image_url']) ?>" alt=""><?php else: ?><?= e($c['cat_icon'] ?: '🥨') ?><?php endif; ?>
+                <?php if ($c['image_url']): ?><img src="<?= e($c['image_url']) ?>" alt=""><?php else: ?><?= catIcon($c['cat_icon'] ?: 'cookie') ?><?php endif; ?>
                 <?php if ($c['cat_name']): ?><span class="campaign-cat-badge"><?= e($c['cat_name']) ?></span><?php endif; ?>
             </div>
             <div class="campaign-body">
@@ -86,16 +86,18 @@ $campaigns = $stmt->fetchAll();
             </div>
             <div class="campaign-footer">
                 <div class="campaign-meta">
-                    <span>📍 <?= e($c['city'] ?: 'N/A') ?></span>
+                    <span><i data-lucide="map-pin" class="lucide-icon"></i> <?= e($c['city'] ?: 'N/A') ?></span>
                     <span><?= $daysLeft !== null ? $daysLeft . ' days left' : 'No deadline' ?></span>
                 </div>
-                <span class="btn btn-outline btn-sm">Contribute →</span>
+                <span class="btn btn-outline btn-sm">Contribute <i data-lucide="arrow-right" class="lucide-icon"></i></span>
             </div>
         </a>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

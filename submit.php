@@ -45,16 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
-        <span class="nav-user">👤 <?= e($user['name']) ?></span><a href="campaigns.php">Campaigns</a><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a><a href="about.php">About</a><a href="feedback.php">Feedback</a></div>
+        <span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span><a href="campaigns.php">Campaigns</a><a href="dashboard.php">Dashboard</a><a href="logout.php" class="nav-btn">Logout</a><a href="about.php">About</a><a href="feedback.php">Feedback</a></div>
 </nav>
 
 <div class="dashboard-wrap">
     <div class="dashboard-header">
-        <h2>🚀 Start a Tayyab Snack Campaign</h2>
+        <h2><i data-lucide="rocket" class="lucide-icon"></i> Start a Tayyab Snack Campaign</h2>
         <p>Tell the community about your halal snack idea — every campaign is reviewed before going live.</p>
     </div>
 
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select name="category_id" class="form-control">
                         <option value="">Select category</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?= (int) $c['id'] ?>"><?= e($c['icon']) ?> <?= e($c['name']) ?></option>
+                            <option value="<?= (int) $c['id'] ?>"><?= e($c['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -113,6 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div></div>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

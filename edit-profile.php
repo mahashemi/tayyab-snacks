@@ -92,11 +92,11 @@ function cleanPhoneInput(el) {
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
-        <span class="nav-user">👤 <?= e($user['name']) ?></span>
+        <span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span>
         <a href="campaigns.php">Campaigns</a>
         <a href="dashboard.php">Dashboard</a>
         <a href="logout.php" class="nav-btn">Logout</a>
@@ -107,7 +107,7 @@ function cleanPhoneInput(el) {
 
 <div class="dashboard-wrap" style="max-width:640px">
     <div class="dashboard-header">
-        <h2>⚙️ Edit Profile</h2>
+        <h2><i data-lucide="settings" class="lucide-icon"></i> Edit Profile</h2>
         <p>Update your account details.</p>
     </div>
 
@@ -171,6 +171,8 @@ function cleanPhoneInput(el) {
         </form>
     </div></div>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

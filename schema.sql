@@ -41,18 +41,19 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS categories (
     id   INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    icon VARCHAR(10)
+    icon VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- icon = a Lucide (https://lucide.dev) icon name, rendered via <i data-lucide="...">
 INSERT INTO categories (name, icon) VALUES
-('Packaged Snacks (Chips, Crackers, Namkeen)', '🥨'),
-('Bakery & Confectionery',                     '🍰'),
-('Kids'' Snacks',                               '🧒'),
-('Dried Fruits & Nuts',                        '🥜'),
-('Halal Beverages & Juices',                   '🧃'),
-('Mobile Snack Carts / Trucks',                '🛒'),
-('Charity Snack Distribution',                 '❤️'),
-('Other Snack Initiative',                     '📦');
+('Packaged Snacks (Chips, Crackers, Namkeen)', 'cookie'),
+('Bakery & Confectionery',                     'cake-slice'),
+('Kids'' Snacks',                               'baby'),
+('Dried Fruits & Nuts',                        'apple'),
+('Halal Beverages & Juices',                   'cup-soda'),
+('Mobile Snack Carts / Trucks',                'truck'),
+('Charity Snack Distribution',                 'heart-handshake'),
+('Other Snack Initiative',                     'package');
 
 -- ── Campaigns ─────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS campaigns (

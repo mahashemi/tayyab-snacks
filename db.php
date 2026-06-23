@@ -203,6 +203,10 @@ function handleImageUpload(string $fieldName, string $subDir): ?string {
     return 'uploads/' . $subDir . '/' . $filename;
 }
 
+function catIcon(?string $iconName): string {
+    return '<i data-lucide="' . e($iconName ?: 'package') . '" class="lucide-icon"></i>';
+}
+
 function progressPct(float $raised, float $goal): int {
     if ($goal <= 0) return 0;
     return (int) min(100, round($raised / $goal * 100));
@@ -210,7 +214,7 @@ function progressPct(float $raised, float $goal): int {
 
 // ── Engagement / Profit-Sharing ─────────────────────────────────────────
 function engagementLabel(int $akhiraPercent): string {
-    if ($akhiraPercent <= 0) return '🌍 Total Dunya';
-    if ($akhiraPercent >= 100) return '🕊️ Total Akhira';
-    return "🌍🕊️ Dunya + Akhira ({$akhiraPercent}%)";
+    if ($akhiraPercent <= 0) return '<i data-lucide="globe" class="lucide-icon"></i> Total Dunya';
+    if ($akhiraPercent >= 100) return '<i data-lucide="heart-handshake" class="lucide-icon"></i> Total Akhira';
+    return "<i data-lucide=\"scale\" class=\"lucide-icon\"></i> Dunya + Akhira ({$akhiraPercent}%)";
 }

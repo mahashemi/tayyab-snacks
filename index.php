@@ -29,12 +29,12 @@ $stats = $pdo->query(
 <body>
 
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
         <a href="campaigns.php">Campaigns</a>
-        <?php if ($user): ?><span class="nav-user">👤 <?= e($user['name']) ?></span>
+        <?php if ($user): ?><span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span>
             <a href="submit.php">+ Start a Campaign</a>
             <a href="dashboard.php">Dashboard</a>
             <?php if (!empty($user['is_admin'])): ?><a href="admin.php">Admin</a><?php endif; ?>
@@ -50,7 +50,7 @@ $stats = $pdo->query(
 
 <header class="hero">
     <div class="hero-content">
-        <div class="hero-badge">🌿 Halal &amp; Tayyab Certified Campaigns</div>
+        <div class="hero-badge"><i data-lucide="sprout" class="lucide-icon"></i> Halal &amp; Tayyab Certified Campaigns</div>
         <h1>Pure Snacks. <span>Pure Community.</span></h1>
         <p>Fund halal, additive-free snack and packaged food makers. Every contribution helps a Muslim entrepreneur bring tayyab food to your table.</p>
         <div class="hero-actions">
@@ -73,11 +73,11 @@ $stats = $pdo->query(
 <section class="mission-band">
     <div class="mission-grid">
         <div>
-            <h3>🎯 Our Vision</h3>
+            <h3><i data-lucide="target" class="lucide-icon"></i> Our Vision</h3>
             <p>To build the go-to community-funded platform for halal, additive-free snack and packaged food entrepreneurs — helping Muslim families trust what they feed their children, and helping small tayyab snack makers get the capital to grow.</p>
         </div>
         <div>
-            <h3>🌍 Our Mission</h3>
+            <h3><i data-lucide="globe" class="lucide-icon"></i> Our Mission</h3>
             <p>A contribution (crowdfunding) platform focused specifically on packaged and snack food campaigns — from home-based snack makers launching their first product, to small halal brands scaling production — funded directly by the Muslim community.</p>
         </div>
     </div>
@@ -96,7 +96,7 @@ $stats = $pdo->query(
     <p class="section-sub">Support these halal snack and packaged food initiatives</p>
 
     <?php if (!$campaigns): ?>
-        <div class="empty-state"><div class="icon">📭</div><h3>No active campaigns right now</h3></div>
+        <div class="empty-state"><div class="icon"><i data-lucide="inbox" class="lucide-icon"></i></div><h3>No active campaigns right now</h3></div>
     <?php else: ?>
     <div class="grid-3">
         <?php foreach ($campaigns as $c):
@@ -105,7 +105,7 @@ $stats = $pdo->query(
         ?>
         <a href="campaign.php?id=<?= (int) $c['id'] ?>" class="campaign-card" style="text-decoration:none;color:inherit">
             <div class="campaign-img">
-                <?php if ($c['image_url']): ?><img src="<?= e($c['image_url']) ?>" alt=""><?php else: ?><?= e($c['cat_icon'] ?: '🥨') ?><?php endif; ?>
+                <?php if ($c['image_url']): ?><img src="<?= e($c['image_url']) ?>" alt=""><?php else: ?><?= catIcon($c['cat_icon'] ?: 'cookie') ?><?php endif; ?>
                 <?php if ($c['cat_name']): ?><span class="campaign-cat-badge"><?= e($c['cat_name']) ?></span><?php endif; ?>
             </div>
             <div class="campaign-body">
@@ -122,10 +122,10 @@ $stats = $pdo->query(
             </div>
             <div class="campaign-footer">
                 <div class="campaign-meta">
-                    <span>📍 <?= e($c['city'] ?: 'N/A') ?></span>
+                    <span><i data-lucide="map-pin" class="lucide-icon"></i> <?= e($c['city'] ?: 'N/A') ?></span>
                     <span><?= $daysLeft !== null ? $daysLeft . ' days left' : 'No deadline' ?></span>
                 </div>
-                <span class="btn btn-outline btn-sm">Contribute →</span>
+                <span class="btn btn-outline btn-sm">Contribute <i data-lucide="arrow-right" class="lucide-icon"></i></span>
             </div>
         </a>
         <?php endforeach; ?>
@@ -136,7 +136,7 @@ $stats = $pdo->query(
 <footer>
     <div class="footer-grid">
         <div>
-            <div class="footer-brand">🥨 <?= e(SITE_NAME) ?></div>
+            <div class="footer-brand"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?></div>
             <p>Pure Snacks. Pure Intentions. Pure Community.</p>
         </div>
         <div>
@@ -154,9 +154,11 @@ $stats = $pdo->query(
             </ul>
         </div>
     </div>
-    <div class="footer-bottom">&copy; <?= date('Y') ?> <?= e(SITE_NAME) ?>. Built with ❤️ for the Ummah.</div>
+    <div class="footer-bottom">&copy; <?= date('Y') ?> <?= e(SITE_NAME) ?>. Built with <i data-lucide="heart" class="lucide-icon"></i> for the Ummah.</div>
 </footer>
 
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>

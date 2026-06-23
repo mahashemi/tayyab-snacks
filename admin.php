@@ -110,11 +110,11 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
 </head>
 <body>
 <nav class="navbar">
-    <a class="nav-brand" href="index.php">🥨 <?= e(SITE_NAME) ?> <small style="color:var(--gold)">ADMIN</small></a>
-    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+    <a class="nav-brand" href="index.php"><i data-lucide="cookie" class="lucide-icon"></i> <?= e(SITE_NAME) ?> <small style="color:var(--gold)">ADMIN</small></a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu"><i data-lucide="menu" class="lucide-icon"></i></button>
     <div class="nav-scrim" onclick="toggleNav()"></div>
     <div class="nav-links">
-        <span class="nav-user">👤 <?= e($user['name']) ?></span>
+        <span class="nav-user"><i data-lucide="user" class="lucide-icon"></i> <?= e($user['name']) ?></span>
         <a href="index.php">Site</a>
         <a href="dashboard.php">Dashboard</a>
         <a href="logout.php" class="nav-btn">Logout</a>
@@ -125,7 +125,7 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
 
 <div class="dashboard-wrap" style="max-width:1100px">
     <div class="dashboard-header">
-        <h2>🛠️ Admin Panel</h2>
+        <h2><i data-lucide="wrench" class="lucide-icon"></i> Admin Panel</h2>
         <p>Review pending campaigns, manage users, and export platform data.</p>
     </div>
 
@@ -140,16 +140,16 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
 
     <div class="tabs">
         <a href="?tab=pending" class="tab-btn <?= $tab === 'pending' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">⏳ Pending (<?= count($pending) ?>)</a>
-        <a href="?tab=campaigns" class="tab-btn <?= $tab === 'campaigns' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">🥨 All Campaigns (<?= count($allCampaigns) ?>)</a>
-        <a href="?tab=users" class="tab-btn <?= $tab === 'users' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">👥 Users (<?= count($users) ?>)</a>
-        <a href="?tab=categories" class="tab-btn <?= $tab === 'categories' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">🏷️ Categories (<?= count($categories) ?>)</a>
-        <a href="?tab=settings" class="tab-btn <?= $tab === 'settings' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">⚙️ Settings</a>
-        <a href="?tab=feedback" class="tab-btn <?= $tab === 'feedback' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center">💬 Feedback (<?= count($feedback) ?>)</a>
+        <a href="?tab=campaigns" class="tab-btn <?= $tab === 'campaigns' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="cookie" class="lucide-icon"></i> All Campaigns (<?= count($allCampaigns) ?>)</a>
+        <a href="?tab=users" class="tab-btn <?= $tab === 'users' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="users" class="lucide-icon"></i> Users (<?= count($users) ?>)</a>
+        <a href="?tab=categories" class="tab-btn <?= $tab === 'categories' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="tag" class="lucide-icon"></i> Categories (<?= count($categories) ?>)</a>
+        <a href="?tab=settings" class="tab-btn <?= $tab === 'settings' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="settings" class="lucide-icon"></i> Settings</a>
+        <a href="?tab=feedback" class="tab-btn <?= $tab === 'feedback' ? 'active' : '' ?>" style="text-decoration:none;display:block;text-align:center"><i data-lucide="message-circle" class="lucide-icon"></i> Feedback (<?= count($feedback) ?>)</a>
     </div>
 
     <?php if ($tab === 'pending'): ?>
         <?php if (!$pending): ?>
-            <div class="empty-state"><div class="icon">✅</div><h3>No campaigns awaiting review</h3></div>
+            <div class="empty-state"><div class="icon"><i data-lucide="check-circle-2" class="lucide-icon"></i></div><h3>No campaigns awaiting review</h3></div>
         <?php else: ?>
         <?php foreach ($pending as $c): ?>
         <div class="card" style="margin-bottom:1rem">
@@ -162,9 +162,9 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
                         <div style="margin-top:.5rem;font-weight:700;color:var(--green-deep)">Goal: $<?= number_format((float) $c['goal_amount']) ?></div>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:.5rem;min-width:140px">
-                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-outline btn-full">✏️ Edit First</a>
-                        <form method="post"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="active" class="btn btn-green btn-full">✓ Approve</button></form>
-                        <form method="post" onsubmit="return confirm('Reject this campaign?')"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="rejected" class="btn btn-outline btn-full" style="color:#c00;border-color:#c00">✕ Reject</button></form>
+                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="btn btn-outline btn-full"><i data-lucide="pencil" class="lucide-icon"></i> Edit First</a>
+                        <form method="post"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="active" class="btn btn-green btn-full"><i data-lucide="check" class="lucide-icon"></i> Approve</button></form>
+                        <form method="post" onsubmit="return confirm('Reject this campaign?')"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>"><button type="submit" name="set_status" value="rejected" class="btn btn-outline btn-full" style="color:#c00;border-color:#c00"><i data-lucide="x" class="lucide-icon"></i> Reject</button></form>
                     </div>
                 </div>
             </div>
@@ -174,8 +174,8 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
 
     <?php elseif ($tab === 'campaigns'): ?>
         <div style="display:flex;justify-content:flex-end;gap:.6rem;margin-bottom:1rem">
-            <a href="?export=campaigns" class="btn btn-outline btn-sm">⬇ Campaigns CSV</a>
-            <a href="?export=contributions" class="btn btn-outline btn-sm">⬇ Contributions CSV</a>
+            <a href="?export=campaigns" class="btn btn-outline btn-sm"><i data-lucide="download" class="lucide-icon"></i> Campaigns CSV</a>
+            <a href="?export=contributions" class="btn btn-outline btn-sm"><i data-lucide="download" class="lucide-icon"></i> Contributions CSV</a>
         </div>
         <table class="table">
             <thead><tr><th>Title</th><th>Creator</th><th>Goal</th><th>Raised</th><th>Status</th><th>Actions</th></tr></thead>
@@ -188,7 +188,7 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
                     <td>$<?= number_format((float) $c['raised_amount']) ?></td>
                     <td><span class="badge badge-<?= e($c['status']) ?>"><?= e(ucfirst($c['status'])) ?></span></td>
                     <td class="action-row">
-                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Edit campaign" aria-label="Edit campaign">✏️</a>
+                        <a href="edit-campaign.php?id=<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Edit campaign" aria-label="Edit campaign"><i data-lucide="pencil" class="lucide-icon"></i></a>
                         <form method="post" style="display:inline">
                             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
                             <input type="hidden" name="campaign_id" value="<?= (int) $c['id'] ?>">
@@ -210,10 +210,11 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
     <?php elseif ($tab === 'categories'): ?>
         <div class="card" style="margin-bottom:1.5rem"><div class="card-body">
             <h3 style="font-size:1rem;margin-bottom:1rem">+ Add New Category</h3>
+            <p style="font-size:.78rem;color:var(--text-light);margin-bottom:.8rem">Icon must be a name from <a href="https://lucide.dev/icons" target="_blank" rel="noopener">lucide.dev/icons</a> (e.g. "cookie", "truck").</p>
             <form method="post" style="display:grid;grid-template-columns:1fr 100px auto;gap:.6rem;align-items:end">
                 <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
                 <div class="form-group" style="margin:0"><label class="form-label">Name</label><input type="text" name="name" class="form-control" required></div>
-                <div class="form-group" style="margin:0"><label class="form-label">Icon</label><input type="text" name="icon" class="form-control" placeholder="🥨"></div>
+                <div class="form-group" style="margin:0"><label class="form-label">Icon</label><input type="text" name="icon" class="form-control" placeholder="e.g. cookie"></div>
                 <button type="submit" name="add_category" value="1" class="btn btn-amber">+ Add</button>
             </form>
         </div></div>
@@ -228,11 +229,11 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
                     <td class="action-row">
                         <form method="post" id="<?= $fid ?>" style="display:inline">
                             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
-                            <button type="submit" name="edit_category" value="<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Save" aria-label="Save">💾</button>
+                            <button type="submit" name="edit_category" value="<?= (int) $c['id'] ?>" class="icon-btn" data-tip="Save" aria-label="Save"><i data-lucide="save" class="lucide-icon"></i></button>
                         </form>
                         <form method="post" onsubmit="return confirm('Delete this category? Campaigns using it will become uncategorized.')" style="display:inline">
                             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
-                            <button type="submit" name="delete_category" value="<?= (int) $c['id'] ?>" class="icon-btn icon-btn-danger" data-tip="Delete" aria-label="Delete">🗑️</button>
+                            <button type="submit" name="delete_category" value="<?= (int) $c['id'] ?>" class="icon-btn icon-btn-danger" data-tip="Delete" aria-label="Delete"><i data-lucide="trash-2" class="lucide-icon"></i></button>
                         </form>
                     </td>
                 </tr>
@@ -259,10 +260,10 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
         </div></div>
     <?php elseif ($tab === 'feedback'): ?>
         <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
-            <a href="?export=feedback" class="btn btn-outline btn-sm">⬇ Download CSV</a>
+            <a href="?export=feedback" class="btn btn-outline btn-sm"><i data-lucide="download" class="lucide-icon"></i> Download CSV</a>
         </div>
         <?php if (!$feedback): ?>
-            <div class="empty-state"><div class="icon">💬</div><h3>No feedback yet</h3></div>
+            <div class="empty-state"><div class="icon"><i data-lucide="message-circle" class="lucide-icon"></i></div><h3>No feedback yet</h3></div>
         <?php else: ?>
         <table class="table">
             <thead><tr><th>From</th><th>Email</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
@@ -275,8 +276,8 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
                     <td><?= date('M j, Y', strtotime($f['created_at'])) ?></td>
                     <td><span class="badge badge-<?= $f['is_read'] ? 'closed' : 'pending' ?>"><?= $f['is_read'] ? 'Read' : 'New' ?></span></td>
                     <td class="action-row">
-                        <form method="post" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="toggle_feedback_read" value="<?= (int) $f['id'] ?>" class="icon-btn" data-tip="<?= $f['is_read'] ? 'Mark unread' : 'Mark read' ?>" aria-label="<?= $f['is_read'] ? 'Mark unread' : 'Mark read' ?>"><?= $f['is_read'] ? '📩' : '✔️' ?></button></form>
-                        <form method="post" onsubmit="return confirm('Delete this feedback?')" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="delete_feedback" value="<?= (int) $f['id'] ?>" class="icon-btn icon-btn-danger" data-tip="Delete" aria-label="Delete">🗑️</button></form>
+                        <form method="post" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="toggle_feedback_read" value="<?= (int) $f['id'] ?>" class="icon-btn" data-tip="<?= $f['is_read'] ? 'Mark unread' : 'Mark read' ?>" aria-label="<?= $f['is_read'] ? 'Mark unread' : 'Mark read' ?>"><?= $f['is_read'] ? '<i data-lucide="mail" class="lucide-icon"></i>' : '<i data-lucide="badge-check" class="lucide-icon"></i>' ?></button></form>
+                        <form method="post" onsubmit="return confirm('Delete this feedback?')" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="delete_feedback" value="<?= (int) $f['id'] ?>" class="icon-btn icon-btn-danger" data-tip="Delete" aria-label="Delete"><i data-lucide="trash-2" class="lucide-icon"></i></button></form>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -285,7 +286,7 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
         <?php endif; ?>
     <?php else: ?>
         <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
-            <a href="?export=users" class="btn btn-outline btn-sm">⬇ Download CSV</a>
+            <a href="?export=users" class="btn btn-outline btn-sm"><i data-lucide="download" class="lucide-icon"></i> Download CSV</a>
         </div>
         <table class="table">
             <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Phone</th><th>Verified</th><th>Joined</th><th>Actions</th></tr></thead>
@@ -296,16 +297,16 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
                     <td><?= e($u['email']) ?></td>
                     <td><?= e($u['city'] ?: '—') ?></td>
                     <td><?= e($u['phone'] ?: '—') ?></td>
-                    <td><?= $u['is_verified'] ? '✓ Verified' : '—' ?></td>
+                    <td><?= $u['is_verified'] ? '<i data-lucide="check" class="lucide-icon"></i> Verified' : '—' ?></td>
                     <td><?= date('M j, Y', strtotime($u['created_at'])) ?></td>
                     <td class="action-row">
                         <?php if (!$u['is_verified']): ?>
-                        <form method="post" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="toggle_verified" value="<?= (int) $u['id'] ?>" class="icon-btn" data-tip="Verify" aria-label="Verify">✔️</button></form>
+                        <form method="post" style="display:inline"><input type="hidden" name="_csrf" value="<?= e(csrf()) ?>"><button type="submit" name="toggle_verified" value="<?= (int) $u['id'] ?>" class="icon-btn" data-tip="Verify" aria-label="Verify"><i data-lucide="badge-check" class="lucide-icon"></i></button></form>
                         <?php endif; ?>
                         <?php if ((int) $u['id'] !== (int) $user['id']): ?>
                         <form method="post" onsubmit="return confirm('<?= $u['is_admin'] ? 'Remove admin privileges from' : 'Grant admin privileges to' ?> <?= e($u['name']) ?>?')" style="display:inline">
                             <input type="hidden" name="_csrf" value="<?= e(csrf()) ?>">
-                            <button type="submit" name="toggle_admin" value="<?= (int) $u['id'] ?>" class="icon-btn <?= $u['is_admin'] ? 'icon-btn-danger' : '' ?>" data-tip="<?= $u['is_admin'] ? 'Revoke admin' : 'Make admin' ?>" aria-label="<?= $u['is_admin'] ? 'Revoke admin' : 'Make admin' ?>"><?= $u['is_admin'] ? '👑' : '⭐' ?></button>
+                            <button type="submit" name="toggle_admin" value="<?= (int) $u['id'] ?>" class="icon-btn <?= $u['is_admin'] ? 'icon-btn-danger' : '' ?>" data-tip="<?= $u['is_admin'] ? 'Revoke admin' : 'Make admin' ?>" aria-label="<?= $u['is_admin'] ? 'Revoke admin' : 'Make admin' ?>"><?= $u['is_admin'] ? '<i data-lucide="crown" class="lucide-icon"></i>' : '<i data-lucide="star" class="lucide-icon"></i>' ?></button>
                         </form>
                         <?php endif; ?>
                     </td>
@@ -315,6 +316,8 @@ $feedback = $pdo->query('SELECT * FROM feedback ORDER BY created_at DESC')->fetc
         </table>
     <?php endif; ?>
 </div>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="app.js" defer></script>
+<script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>
